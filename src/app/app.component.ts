@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   standalone: true,
-  template: ` <div class="h-10 bg-green-500 p-2 text-center text-white">asdsda</div> `,
+  template: ` <div class="h-10 bg-amber-800 p-2 text-center text-white">asdsdasda</div> `,
   styles: [],
 })
 export class AppComponent {}
