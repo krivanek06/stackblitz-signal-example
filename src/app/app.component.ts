@@ -4,9 +4,13 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  template: `
+  <div class="h-10 bg-green-500 text-white text-center p-2">
+    asdsda
+  </div>
+  `,
+  styles: []
 })
 export class AppComponent {
-  title = 'stackblitz-signal-example';
 }
