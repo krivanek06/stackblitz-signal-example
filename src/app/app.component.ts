@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AnimeSearchComponent } from './components/anime-table/anime-search.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [AnimeSearchComponent],
   standalone: true,
-  template: ` <div class="h-10 bg-amber-800 p-2 text-center text-white">asdsdasda</div> `,
+  template: `
+    <section class="mx-auto max-w-[1680px]">
+      <div class="bg-gray-400 p-10 pt-20">
+        <app-anime-search class="mb-10" />
+
+        <div>Editing anime</div>
+      </div>
+    </section>
+  `,
   styles: [],
 })
 export class AppComponent {}
