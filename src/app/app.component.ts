@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AnimeSearchNewComponent } from './components/new-way/anime-search-new.component';
-import { AnimeSearchOldComponent } from './components/old-way/anime-search-old.component';
+import { AnimeSearchNewComponent } from './components/anime-search-new.component';
+import { AnimeSearchOldComponent } from './components/anime-search-old.component';
 
 @Component({
   selector: 'app-root',

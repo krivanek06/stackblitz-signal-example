@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { outputFromObservable, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
@@ -15,8 +14,8 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { AnimeApiService } from '../../services/anime-api.service';
-import { AnimeData, AnimeGenres } from '../../services/api.model';
+import { AnimeApiService } from '../services/anime-api.service';
+import { AnimeData, AnimeGenres } from '../services/api.model';
 
 @Component({
   selector: 'app-anime-search-old',
@@ -27,7 +26,7 @@ import { AnimeData, AnimeGenres } from '../../services/api.model';
         <button
           (click)="onGenresClick(genre)"
           mat-raised-button
-          [color]="selectedGenresId() === genre.mal_id ? 'primary' : 'accent'"
+          [color]="selectedGenresId() === genre.mal_id ? 'primary' : 'warn'"
           type="button"
         >
           {{ genre.name }}
@@ -53,8 +52,6 @@ import { AnimeData, AnimeGenres } from '../../services/api.model';
           </button>
         }
       }
-
-      <!-- todo - add loading spinner -->
     </div>
   `,
   styles: [
@@ -66,7 +63,7 @@ import { AnimeData, AnimeGenres } from '../../services/api.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatOptionModule, MatButtonModule],
+  imports: [MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatButtonModule],
 })
 export class AnimeSearchOldComponent {
   private readonly apiService = inject(AnimeApiService);

@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { delay, map, of } from 'rxjs';
-import { animeGenresMock } from './api-mock.model';
-import { AnimeData, AnimeDataAPI, AnimeDetails } from './api.model';
+import { delay, map } from 'rxjs';
+import { AnimeData, AnimeDataAPI, AnimeDetails, AnimeGenres } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,10 @@ export class AnimeApiService {
   }
 
   getAnimeGenres() {
-    return of(animeGenresMock).pipe(delay(1000));
+    return this.http.get<AnimeDataAPI<AnimeGenres>>('https://api.jikan.moe/v4/genres/anime').pipe(
+      map((d) => d.data),
+      delay(1000),
+    );
   }
 
   /**

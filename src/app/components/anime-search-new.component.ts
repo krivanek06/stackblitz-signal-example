@@ -3,13 +3,12 @@ import { ChangeDetectionStrategy, Component, inject, linkedSignal, output, signa
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { of } from 'rxjs';
-import { AnimeApiService } from '../../services/anime-api.service';
-import { ANIME_API } from '../../services/api-mock.model';
-import { AnimeData, AnimeDataAPI, AnimeGenres } from '../../services/api.model';
+import { AnimeApiService } from '../services/anime-api.service';
+import { AnimeData, AnimeDataAPI, AnimeGenres } from '../services/api.model';
+import { ANIME_API } from '../services/constants.model';
 
 @Component({
   selector: 'app-anime-search-new',
@@ -20,7 +19,7 @@ import { AnimeData, AnimeDataAPI, AnimeGenres } from '../../services/api.model';
         <button
           (click)="onGenresClick(genre)"
           mat-raised-button
-          [color]="selectedGenresId() === genre.mal_id ? 'primary' : 'accent'"
+          [color]="selectedGenresId() === genre.mal_id ? 'primary' : 'warn'"
           type="button"
         >
           {{ genre.name }}
@@ -57,7 +56,7 @@ import { AnimeData, AnimeDataAPI, AnimeGenres } from '../../services/api.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatOptionModule, MatButtonModule],
+  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule],
 })
 export class AnimeSearchNewComponent {
   private readonly apiService = inject(AnimeApiService);
