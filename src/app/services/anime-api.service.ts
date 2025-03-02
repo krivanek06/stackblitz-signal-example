@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map } from 'rxjs';
-import { AnimeData, AnimeDataAPI, AnimeDetails, AnimeGenres } from './api.model';
+import { delay, map, of } from 'rxjs';
+import { animeGenresMock } from './api-mock.model';
+import { AnimeData, AnimeDataAPI, AnimeDetails } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class AnimeApiService {
   }
 
   getAnimeGenres() {
-    return this.http.get<AnimeDataAPI<AnimeGenres>>(`${this.API}/genres/anime`).pipe(map((res) => res.data));
+    return of(animeGenresMock).pipe(delay(1000));
   }
 
   /**
@@ -26,9 +27,9 @@ export class AnimeApiService {
    * @param genresId genres id of the anime
    * @returns searched anime that has 'score' property
    */
-  searchAnime(prefix: string, genresId = '1') {
+  searchAnime(prefix: string, genresId = 1) {
     return this.http
       .get<AnimeDataAPI<AnimeData>>(`${this.API}/anime?q=${prefix}&genres=${genresId}&limit=6`)
-      .pipe(map((res) => res.data.filter((d) => !!d.score)));
+      .pipe(map((res) => res.data.filter((d) => !!d.score), delay(1000)));
   }
 }
