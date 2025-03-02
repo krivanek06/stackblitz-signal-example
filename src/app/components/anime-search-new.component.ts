@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,7 +39,7 @@ import { ANIME_API } from '../services/constants.model';
       @if (searchedDataResource.isLoading()) {
         <div class="bg-gray-200 p-4 text-center">Loading...</div>
       } @else {
-        @for (option of searchedDataLink(); track option.mal_id) {
+        @for (option of searchedDataResource.value(); track option.mal_id) {
           <button mat-button type="button" class="rounded-lg bg-gray-200 p-4" (click)="onAnimeClick(option)">
             [{{ option.source }}]: {{ option.title_english ?? option.title }} ({{ option.duration }})
           </button>
@@ -84,11 +84,6 @@ export class AnimeSearchNewComponent {
     defaultValue: [],
   });
 
-  readonly searchedDataLink = linkedSignal({
-    source: this.searchedDataResource.value,
-    computation: (resource) => resource,
-  });
-
   animeDisplayWith(animeData: AnimeData): string {
     return animeData.title_english ?? animeData.title;
   }
@@ -99,6 +94,7 @@ export class AnimeSearchNewComponent {
 
   onAnimeClick(animeData: AnimeData): void {
     this.selectedAnime.emit(animeData);
-    this.searchedDataLink.set([]);
+
+    this.searchedDataResource.value.set([]);
   }
 }
