@@ -81,6 +81,7 @@ export class AnimeSearchOldComponent {
     toObservable(this.selectedGenresId).pipe(
       switchMap((genderId) =>
         this.searchControl.valueChanges.pipe(
+          startWith(this.searchControl.value),
           filter((x) => x.length > 3),
           distinctUntilChanged(),
           debounceTime(300),
@@ -99,8 +100,6 @@ export class AnimeSearchOldComponent {
               startWith(result),
             ),
           ),
-          // initial result when genres are changed
-          startWith({ data: [] as AnimeData[], isLoading: false }),
         ),
       ),
     ),
