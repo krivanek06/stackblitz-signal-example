@@ -15,7 +15,7 @@ import { ANIME_API } from '../services/constants.model';
   template: `
     <!-- anime genres -->
     <div class="mb-4 flex h-16 gap-6 overflow-x-scroll overflow-y-clip">
-      @for (genre of animeGenres.value().data; track genre.mal_id) {
+      @for (genre of animeGenres.value(); track genre.mal_id) {
         <button
           (click)="onGenresClick(genre)"
           mat-raised-button
@@ -66,12 +66,12 @@ export class AnimeSearchNewComponent {
   readonly searchControl = signal('');
   readonly selectedGenresId = signal<number>(1);
 
-  readonly animeGenres = httpResource<AnimeDataAPI<AnimeGenres>>(
+  readonly animeGenres = httpResource<AnimeGenres[]>(
     () => ({
       method: ANIME_API.genres.method,
       url: ANIME_API.genres.url,
     }),
-    { defaultValue: { data: [] } },
+    { defaultValue: [], parse: (data): AnimeGenres[] => (data as AnimeDataAPI<AnimeGenres>).data },
   );
 
   readonly searchedDataResource = rxResource({
