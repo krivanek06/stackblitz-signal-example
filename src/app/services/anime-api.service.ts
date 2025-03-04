@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { delay, map } from 'rxjs';
+import { delay, map, Observable } from 'rxjs';
 import { AnimeData, AnimeDataAPI, AnimeDetails, AnimeGenres } from './api.model';
 
 @Injectable({
@@ -15,10 +15,20 @@ export class AnimeApiService {
     return this.http.get<{ data: AnimeDetails }>(`${this.API}/anime/${id}`).pipe(map((res) => res.data));
   }
 
-  getAnimeGenres() {
-    return this.http.get<AnimeDataAPI<AnimeGenres>>('https://api.jikan.moe/v4/genres/anime').pipe(
+  getAnimeGenres(): Observable<AnimeGenres[]> {
+    return this.http.get<AnimeDataAPI<AnimeGenres>>(`${this.API}/genres/anime`).pipe(
       map((d) => d.data),
       delay(1000),
+    );
+  }
+
+  getAnimeGenresResource(): HttpResourceRef<AnimeGenres[]> {
+    return httpResource<AnimeGenres[]>(
+      () => ({
+        method: 'GET',
+        url: `${this.API}/genres/anime`,
+      }),
+      { defaultValue: [], parse: (data): AnimeGenres[] => (data as AnimeDataAPI<AnimeGenres>).data },
     );
   }
 
