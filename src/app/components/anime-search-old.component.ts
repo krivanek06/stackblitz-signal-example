@@ -10,6 +10,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  of,
   startWith,
   Subject,
   switchMap,
@@ -90,7 +91,7 @@ export class AnimeSearchOldComponent {
             this.apiService.searchAnime(name, genderId).pipe(
               map((data) => ({ data, isLoading: false })),
               startWith({ data: [] as AnimeData[], isLoading: true }),
-              catchError((e) => [{ data: [] as AnimeData[], error: e, isLoading: false }]),
+              catchError((e) => of({ data: [] as AnimeData[], error: e, isLoading: false })),
             ),
           ),
           // listen on select and reset the data
