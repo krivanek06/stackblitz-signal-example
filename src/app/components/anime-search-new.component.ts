@@ -1,3 +1,4 @@
+import { httpResource } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -6,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { of } from 'rxjs';
 import { AnimeApiService } from '../services/anime-api.service';
-import { AnimeData, AnimeGenres } from '../services/api.model';
+import { AnimeData, AnimeDataAPI, AnimeGenres } from '../services/api.model';
 
 @Component({
   selector: 'app-anime-search-new',
@@ -64,7 +65,13 @@ export class AnimeSearchNewComponent {
   readonly searchControl = signal('');
   readonly selectedGenresId = signal<number>(1);
 
-  readonly animeGenres = this.apiService.getAnimeGenresResource();
+  readonly animeGenres = httpResource<AnimeGenres[]>(
+    () => ({
+      method: 'GET',
+      url: `https://api.jikan.moe/v4/genres/anime`,
+    }),
+    { defaultValue: [], parse: (data): AnimeGenres[] => (data as AnimeDataAPI<AnimeGenres>).data },
+  );
 
   readonly searchedDataResource = rxResource({
     request: () => ({
